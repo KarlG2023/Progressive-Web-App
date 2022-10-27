@@ -7,9 +7,9 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
+        <H1>
+          Hello on essaie de publier l'app via netlity
+        </H1>
         <a
           className="App-link"
           href="https://reactjs.org"
