@@ -30,7 +30,7 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
 
   const register = () => {
@@ -42,7 +42,7 @@ export default function Register() {
     if (loading) return;
 
     if (user) navigate("/", { replace: true });
-  }, [user, loading]);
+  }, [user, loading, navigate]);
 
   return (
     <ThemeProvider theme={theme}>
