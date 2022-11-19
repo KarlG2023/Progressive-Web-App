@@ -7,6 +7,7 @@ import {
   signInWithGoogle,
 } from "./firebase";
 import "./Register.css";
+
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,6 +22,7 @@ function Register() {
     if (loading) return;
     if (user) history.replace("/dashboard");
   }, [user, loading]);
+  
   return (
     <div className="register">
       <div className="register__container">

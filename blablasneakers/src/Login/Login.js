@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,31 +16,26 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {
   GoogleLoginButton
 } from "react-social-login-buttons";
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, logInWithEmailAndPassword, signInWithGoogle } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, loading, error] = useAuthState(auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (loading) {
+      // maybe trigger a loading screen
+      return;
+    }
+    console.log("email", email, "password", password);
+    if (user) navigate("/");
+  }, [user, loading]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -59,7 +55,7 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -68,6 +64,8 @@ export default function SignIn() {
               label="Email Address"
               name="email"
               autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               autoFocus
             />
             <TextField
@@ -78,23 +76,22 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
             />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={() => logInWithEmailAndPassword(email, password)}
             >
               Sign In
             </Button>
-            <div className="text-center pt-3">Or</div>
-            <GoogleLoginButton className="mt-3 mb-3">
-              <span>Sign up with Google</span>
+            {/* <div className="text-center pt-3">Or</div> */}
+            <GoogleLoginButton className="mt-3 mb-3" onClick={signInWithGoogle}>
+              <span>Sign In with Google</span>
             </GoogleLoginButton>
             <Grid container>
               <Grid item xs>
@@ -103,14 +100,14 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/SignUp" variant="body2">
+                <Link href="/Register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
       </Container>
     </ThemeProvider>
   );
