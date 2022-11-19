@@ -14,7 +14,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems, thirdListItems } from '../Home/listItems';
 import Box from '@mui/material/Box';
-import { auth } from "../firebase";
+// import { auth } from "../firebase";
 
 const drawerWidth = 240;
 
@@ -147,8 +147,10 @@ export default function Navbar({ children }) {
         <List component="nav">
           {mainListItems}
           <Divider sx={{ my: 1 }} />
-            { auth ? secondaryListItems : thirdListItems }
-            {/* { auth && thirdListItems } */}
+          {secondaryListItems}
+          {thirdListItems}
+          {/* { auth ? secondaryListItems : thirdListItems } */}
+          {/* { auth && thirdListItems } */}
         </List>
       </Drawer>
 
