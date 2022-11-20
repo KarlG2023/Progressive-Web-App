@@ -92,11 +92,11 @@ function DashboardContent() {
       >
         <CssBaseline />
         <Toolbar />
-        <Container id="wesh" maxWidth="lg" sx={{ mt: 4, mb: 4, marginLeft: "300px!important", marginRight: "50px!important" }}>
+        <Container id="wesh" maxWidth="lg" sx={{ mt: 4, mb: 4}}>
           <Grid container spacing={3} columns={12}>
 
             <Grid item xs={12} md={8} lg={9}>
-              <Typography component="h2" variant="h4" color="primary" gutterBottom>
+              <Typography color="primary" sx={{ typography: { sm: 'h4', xs: 'h5' } }} gutterBottom >
                 Forum BlaBla Sneakers
               </Typography>
               <Stack
@@ -104,7 +104,7 @@ function DashboardContent() {
                 divider={<Divider orientation="vertical" flexItem />}
                 direction="row"
                 sx={{ pb: 2, justifyContent: 'space-between' }}>
-                <Button href="#sujet-form" item variant="contained">Nouveau sujet</Button>
+                <Button href="#sujet-form" item variant="contained" sx={{ typography: { sm: 'h8', xs: 'h8' } }}>Nouveau sujet</Button>
                 <Search item>
                   <SearchIconWrapper>
                     <SearchIcon />
@@ -114,13 +114,13 @@ function DashboardContent() {
                     inputProps={{ 'aria-label': 'search' }}
                   />
                 </Search>
-                <Button item variant="outlined">Actualiser</Button>
+                <Button item variant="outlined" sx={{ typography: { sm: 'h8', xs: 'h8' } }}>Actualiser</Button>
               </Stack>
               <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                 <RecentSubject />
               </Paper>
               
-              <Typography sx={{ pt: 2 }} component="h2" variant="h6" color="primary" gutterBottom>
+              <Typography sx={{ pt: 2, typography: { sm: 'h4', xs: 'h5' } }} component="h2" variant="h6" color="primary" gutterBottom>
                 Nouveau Sujet
               </Typography>
               <Stack spacing={2} sx={{ pb: 2, pt: 2, justifyContent: 'space-between' }}>
