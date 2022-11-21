@@ -17,7 +17,8 @@ import {
   GoogleLoginButton
 } from "react-social-login-buttons";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, logInWithEmailAndPassword, signInWithGoogle } from "../firebase";
+import { auth } from "../firebase/config"
+import { logInWithEmailAndPassword, signInWithGoogle } from "../firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();

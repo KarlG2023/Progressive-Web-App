@@ -14,7 +14,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems, thirdListItems } from '../Home/listItems';
 import Box from '@mui/material/Box';
-import { auth } from "../firebase";
+import { auth } from "../firebase/config";
 
 const drawerWidth = 240;
 
