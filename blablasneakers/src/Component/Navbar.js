@@ -1,5 +1,5 @@
 import React from 'react'
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -14,7 +14,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems, thirdListItems } from '../Home/listItems';
 import Box from '@mui/material/Box';
-import { auth } from "../firebase/config";
+// import { auth } from "../firebase";
 
 const drawerWidth = 240;
 
@@ -38,7 +38,7 @@ const AppBar = styled(MuiAppBar, { shouldForwardProp: (prop) => prop !== 'open',
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     '& .MuiDrawer-paper': {
-      position: 'fixed',
+      // position: 'fixed',
       whiteSpace: 'nowrap',
       width: drawerWidth,
       transition: theme.transitions.create('width', {
@@ -61,23 +61,12 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+const Main = styled('main')(
   ({ theme, open }) => ({
     flexGrow: 1,
     id: 'hello-wolrd',
     alignContent: 'center',
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: `-${drawerWidth}px`,
-    ...(open && {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-    }),
+    marginLeft: "20px",
   }),
 );
 
@@ -91,7 +80,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function Navbar({ children }) {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -147,8 +136,10 @@ export default function Navbar({ children }) {
         <List component="nav">
           {mainListItems}
           <Divider sx={{ my: 1 }} />
-            { auth ? secondaryListItems : thirdListItems }
-            {/* { auth && thirdListItems } */}
+          {secondaryListItems}
+          {thirdListItems}
+          {/* { auth ? secondaryListItems : thirdListItems } */}
+          {/* { auth && thirdListItems } */}
         </List>
       </Drawer>
 

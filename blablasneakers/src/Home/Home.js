@@ -1,23 +1,14 @@
 import * as React from 'react';
 import { styled, createTheme, ThemeProvider, alpha } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
-import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems } from './listItems';
 import SubjectFavCard from './SubjectFavCard';
 import RecentSubject from './RecentSubject';
 import SearchIcon from '@mui/icons-material/Search';
@@ -102,11 +93,11 @@ function DashboardContent() {
       >
         <CssBaseline />
         <Toolbar />
-        <Container id="wesh" maxWidth="lg" sx={{ mt: 4, mb: 4, marginLeft: "300px!important", marginRight: "50px!important" }}>
+        <Container id="wesh" maxWidth="lg" sx={{ mt: 4, mb: 4}}>
           <Grid container spacing={3} columns={12}>
 
             <Grid item xs={12} md={8} lg={9}>
-              <Typography component="h2" variant="h4" color="primary" gutterBottom>
+              <Typography color="primary" sx={{ typography: { sm: 'h4', xs: 'h5' } }} gutterBottom >
                 Forum BlaBla Sneakers
               </Typography>
               <Stack
@@ -114,7 +105,7 @@ function DashboardContent() {
                 divider={<Divider orientation="vertical" flexItem />}
                 direction="row"
                 sx={{ pb: 2, justifyContent: 'space-between' }}>
-                <Button href="#sujet-form" item variant="contained">Nouveau sujet</Button>
+                <Button href="#sujet-form" item variant="contained" sx={{ typography: { sm: 'h8', xs: 'h8' } }}>Nouveau sujet</Button>
                 <Search item>
                   <SearchIconWrapper>
                     <SearchIcon />
@@ -124,13 +115,13 @@ function DashboardContent() {
                     inputProps={{ 'aria-label': 'search' }}
                   />
                 </Search>
-                <Button item variant="outlined" onClick={() => getThread("45d2dcddbdd")}>Actualiser</Button>
+                <Button item variant="outlined" sx={{ typography: { sm: 'h8', xs: 'h8' } }}>Actualiser</Button>
               </Stack>
               <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                 <RecentSubject />
               </Paper>
               
-              <Typography sx={{ pt: 2 }} component="h2" variant="h6" color="primary" gutterBottom>
+              <Typography sx={{ pt: 2, typography: { sm: 'h4', xs: 'h5' } }} component="h2" variant="h6" color="primary" gutterBottom>
                 Nouveau Sujet
               </Typography>
               <Stack spacing={2} sx={{ pb: 2, pt: 2, justifyContent: 'space-between' }}>
