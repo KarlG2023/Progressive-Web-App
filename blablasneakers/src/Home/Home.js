@@ -16,6 +16,7 @@ import InputBase from '@mui/material/InputBase';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
+import { createSubject, deleteSubject, postMessage, getSubject, getSubjects, getThread } from '../firebase/thread';
 
 function Copyright(props) {
   return (
@@ -133,7 +134,7 @@ function DashboardContent() {
                       <TextField label="Sujet" multiline rows={4} placeholder="Écrivez votre sujet ici..." variant="outlined" fullWidth required />
                     </Grid>
                     <Grid item xs={12}>
-                      <Button type="submit" variant="contained" color="primary" fullWidth>Poster</Button>
+                      <Button type="submit" variant="contained" color="primary" fullWidth onClick={() => createSubject("test!", "hello !")}>Poster</Button>
                     </Grid>
                   </Grid>
                 </form>
