@@ -10,7 +10,7 @@ import {
   TextField
 } from '@mui/material';
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "../firebase";
+import { auth, db } from "../firebase/config";
 import { query, collection, getDocs } from "firebase/firestore";
 
 // const states = [
@@ -64,16 +64,6 @@ export const AccountProfileDetails = (props) => {
     };
     fetchUserInformations();
   }, [user, values]);
-
-  const updateProfilUserTmp = (valuesTmp) => {
-    console.log(valuesTmp);
-    // try {
-    //   updateProfilUser(valuesTmp);
-    // } catch (err) {
-    //   console.error(err);
-    //   alert("An error occured while fetching user data");
-    // }
-  };
 
   const handleChange = (event) => {
     console.log(event.target.value)
@@ -161,7 +151,7 @@ export const AccountProfileDetails = (props) => {
           <Button
             color="primary"
             variant="contained"
-            onClick={() => updateProfilUserTmp(valuesTmp)}
+            // onClick={() => updateProfilUserTmp(valuesTmp)}
           >
             Mettre à jour
           </Button>

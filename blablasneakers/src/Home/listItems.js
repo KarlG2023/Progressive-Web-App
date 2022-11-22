@@ -7,7 +7,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import RateReviewIcon from '@mui/icons-material/RateReview';
-import { logout } from "../firebase";
+import { logout } from "../firebase/auth";
 import LogoutIcon from '@mui/icons-material/Logout';
 
 export const mainListItems = (
