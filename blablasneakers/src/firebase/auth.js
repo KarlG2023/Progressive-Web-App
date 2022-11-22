@@ -12,6 +12,14 @@ import { auth, db } from "./config";
 
 const googleProvider = new GoogleAuthProvider();
 
+const getUserId = async () => {
+  const user = auth.currentUser;
+  const userUid = user.uid;
+
+  console.log("userId is -->  "+userUid)
+  return (userUid);
+}
+
 const signInWithGoogle = async () => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
@@ -74,6 +82,7 @@ const logout = () => {
 // maybe auth is no longer updated because of import so no 
 
 export {
+  getUserId,
   signInWithGoogle,
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,

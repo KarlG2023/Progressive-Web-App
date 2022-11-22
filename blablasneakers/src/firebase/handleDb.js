@@ -1,19 +1,18 @@
-import { auth, db } from "./config";
+import { db } from "./config";
 import { uid } from "uid";
-import { set, ref, onValue, remove, update } from "firebase/database";
-import { useState, useEffect } from "react";
+import { set, ref, remove, update } from "firebase/database";
 
-const user = auth.currentUser;
-const userUid = user.uid;
 
 //write
-const writeToDatabase = (message) => {
-  const uuid = uid();
-  set(ref(db, `/${userUid}`), {
-    message,
-    uuid,
+const writeToDatabase = async (data, path) => {
+  set(ref(db, `/${path}`), {
+    data,
   });
+};
 
+//delete
+const deleteInDatabase = async (path) => {
+  remove(ref(db, `/${path}`));
 };
 
 //update
@@ -23,4 +22,4 @@ const writeToDatabase = (message) => {
 //   setTodo(todo.todo);
 // };
 
-export { writeToDatabase };
+export { writeToDatabase, deleteInDatabase };
