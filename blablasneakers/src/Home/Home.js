@@ -25,7 +25,7 @@ import InputBase from '@mui/material/InputBase';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import { createThread, deleteThread, postMessage } from '../firebase/thread';
+import { createSubject, deleteSubject, postMessage, getSubject, getSubjects, getThread } from '../firebase/thread';
 
 function Copyright(props) {
   return (
@@ -124,7 +124,7 @@ function DashboardContent() {
                     inputProps={{ 'aria-label': 'search' }}
                   />
                 </Search>
-                <Button item variant="outlined" onClick={() => postMessage("this is the new message","3542136be18")}>Actualiser</Button>
+                <Button item variant="outlined" onClick={() => getThread("45d2dcddbdd")}>Actualiser</Button>
               </Stack>
               <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                 <RecentSubject />
@@ -143,7 +143,7 @@ function DashboardContent() {
                       <TextField label="Sujet" multiline rows={4} placeholder="Écrivez votre sujet ici..." variant="outlined" fullWidth required />
                     </Grid>
                     <Grid item xs={12}>
-                      <Button type="submit" variant="contained" color="primary" fullWidth onClick={() => createThread("my name is ya2n", "I got like 20 pair of sneakers, rate them !")}>Poster</Button>
+                      <Button type="submit" variant="contained" color="primary" fullWidth onClick={() => createSubject("test!", "hello !")}>Poster</Button>
                     </Grid>
                   </Grid>
                 </form>
