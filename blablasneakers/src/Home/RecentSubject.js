@@ -47,11 +47,13 @@ const rows = [
   ),
 ];
 
-// function preventDefault(event) {
-//   event.preventDefault();
-// }
-
 export default function RecentSubject() {
+  const [selectedRow, setSelectedRow] = React.useState({});
+
+  React.useEffect(() => {
+    console.log(selectedRow);
+  }, [selectedRow])
+  
   return (
     <React.Fragment>
       <Title>Sujets récents</Title>
@@ -61,16 +63,14 @@ export default function RecentSubject() {
             <TableCell>Sujet</TableCell>
             <TableCell>Auteur</TableCell>
             <TableCell>Creation du sujet</TableCell>
-            {/* <TableCell align="right">Sale Amount</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.id}>
+            <TableRow key={row.id} onClick={() => setSelectedRow(row)}>
               <TableCell>{row.shipTo}</TableCell>
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.date}</TableCell>
-              {/* <TableCell align="right">{`$${row.amount}`}</TableCell> */}
             </TableRow>
           ))}
         </TableBody>

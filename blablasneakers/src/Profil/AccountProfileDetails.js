@@ -11,8 +11,7 @@ import {
 } from '@mui/material';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase";
-import { query, collection, getDocs, where } from "firebase/firestore";
-import { updateProfilUser } from '../firebase'
+import { query, collection, getDocs } from "firebase/firestore";
 
 // const states = [
 //   {

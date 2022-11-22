@@ -116,6 +116,7 @@ function DashboardContent() {
                 </Search>
                 <Button item variant="outlined" sx={{ typography: { sm: 'h8', xs: 'h8' } }}>Actualiser</Button>
               </Stack>
+              
               <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                 <RecentSubject />
               </Paper>

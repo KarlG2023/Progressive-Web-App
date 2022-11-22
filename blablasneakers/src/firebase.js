@@ -16,6 +16,7 @@ import {
   collection,
   where,
   addDoc,
+  setDoc
 } from "firebase/firestore";
 
 // Your web app's Firebase configuration
@@ -96,21 +97,6 @@ const logout = () => {
   signOut(auth);
 };
 
-const updateProfilUser = (user) => {
-  // updateUser(user.uid, {
-  //   user
-  // })
-  //   .then((userRecord) => {
-  //     // See the UserRecord reference doc for the contents of userRecord.
-  //     console.log('Successfully updated user', userRecord.toJSON());
-  //   })
-  //   .catch((error) => {
-  //     console.log('Error updating user:', error);
-  //   });
-};
-// updateUserFirstName(_id:any, _firstName:string) 
-// this.db.doc(`User/$_id`).update(firstName:_firstName);
-
 export {
   auth,
   db,
@@ -119,5 +105,4 @@ export {
   registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
-  updateProfilUser
 };
