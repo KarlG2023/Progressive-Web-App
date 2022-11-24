@@ -66,7 +66,7 @@ export default function Account(props) {
             sx={{ mb: 3 }}
             variant="h4"
           >
-            Account
+            Mon compte
           </Typography>
           <Grid
             container

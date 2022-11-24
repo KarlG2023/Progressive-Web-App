@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -18,10 +20,10 @@ import {
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  auth,
   registerWithEmailAndPassword,
   signInWithGoogle,
-} from "../firebase";
+} from "../firebase/auth";
+import { auth } from "../firebase/config"
 
 const theme = createTheme();
 
@@ -33,16 +35,19 @@ export default function Register() {
   const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
 
-  const register = () => {
+  const register = async () => {
     if (!name) alert("Please enter name");
-    registerWithEmailAndPassword(name, email, password);
+    if (!email) alert("Please enter email");
+    if (!password) alert("Please enter password");
+
+    await registerWithEmailAndPassword(name, email, password);
   };
 
   useEffect(() => {
     if (loading) return;
-
+    console.log("user",user);
     if (user) navigate("/", { replace: true });
-  }, [user, loading, navigate]);
+  }, [user, loading]);
 
   return (
     <ThemeProvider theme={theme}>

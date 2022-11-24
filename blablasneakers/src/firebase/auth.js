@@ -1,41 +1,24 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
 import {
   GoogleAuthProvider,
-  getAuth,
   signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
 } from "firebase/auth";
-import {
-  getFirestore,
-  query,
-  getDocs,
-  collection,
-  where,
-  addDoc,
-} from "firebase/firestore";
+import { query, getDocs, collection, where, addDoc } from "firebase/firestore";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDftHauj3aujDDfjjg0qQzlzUXhC0kiDyM",
-  authDomain: "blablasneakers-53b20.firebaseapp.com",
-  projectId: "blablasneakers-53b20",
-  storageBucket: "blablasneakers-53b20.appspot.com",
-  messagingSenderId: "614554299423",
-  appId: "1:614554299423:web:fefc8ebf038b9c8f28f92a",
-  measurementId: "G-FBNDDNEJ91",
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+import { auth, db } from "./config";
 
 const googleProvider = new GoogleAuthProvider();
+
+const getUserId = async () => {
+  const user = auth.currentUser;
+  const userUid = user.uid;
+
+  console.log("userId is -->  "+userUid)
+  return (userUid);
+}
 
 const signInWithGoogle = async () => {
   try {
@@ -96,12 +79,13 @@ const logout = () => {
   signOut(auth);
 };
 
+// maybe auth is no longer updated because of import so no 
+
 export {
-    auth,
-    db,
-    signInWithGoogle,
-    logInWithEmailAndPassword,
-    registerWithEmailAndPassword,
-    sendPasswordReset,
-    logout,
-  };
+  getUserId,
+  signInWithGoogle,
+  logInWithEmailAndPassword,
+  registerWithEmailAndPassword,
+  sendPasswordReset,
+  logout,
+};

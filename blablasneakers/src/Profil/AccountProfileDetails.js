@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -9,37 +9,85 @@ import {
   Grid,
   TextField
 } from '@mui/material';
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase/config";
+// import { query, collection, getDocs } from "firebase/firestore";
 
-const states = [
-  {
-    value: 'alabama',
-    label: 'Alabama'
-  },
-  {
-    value: 'new-york',
-    label: 'New York'
-  },
-  {
-    value: 'san-francisco',
-    label: 'San Francisco'
-  }
-];
+// const states = [
+//   {
+//     value: 'alabama',
+//     label: 'Alabama'
+//   },
+//   {
+//     value: 'new-york',
+//     label: 'New York'
+//   },
+//   {
+//     value: 'san-francisco',
+//     label: 'San Francisco'
+//   }
+// ];
 
 export const AccountProfileDetails = (props) => {
+  const [user] = useAuthState(auth);
+
   const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
+    email: '',
+    name: '',
+    uid: '',
   });
 
+  const [valuesTmp, setValuesTmp] = useState({
+    email: '',
+    name: '',
+    uid: '',
+  });
+
+  // useEffect(() => {
+  //   const fetchUserInformations = async () => {
+  //     try {
+  //       const q = query(collection(db, "users"));
+  //       const doc = await getDocs(q);
+  //       const data = doc.docs[0].data();
+
+  //       setValues({
+  //         ...values,
+  //         email: data.email,
+  //         name: data.name,
+  //         uid: data.uid,
+  //       });
+
+  //     } catch (err) {
+  //       console.error(err);
+  //       // alert("An error occured while fetching user data");
+  //     }
+  //   };
+  //   fetchUserInformations();
+  // }, [user, values]);
+
+  useEffect(() => {
+    if ([user].length > 0) {
+      const fetchUserInformations = async () => {
+        setValues({
+          ...values,
+          email: user?.email,
+          name: user?.displayName,
+          uid: user?.uid,
+        });
+      };
+      fetchUserInformations();
+    }
+  }, [user, values]);
+
   const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value
+    console.log(event.target.value)
+    setValuesTmp({
+      ...valuesTmp,
+      [event.target.name]: event.target.value,
+      [event.target.email]: event.target.value,
+      [event.target.uid]: event.target.value
     });
+    console.log(valuesTmp);
   };
 
   return (
@@ -50,8 +98,8 @@ export const AccountProfileDetails = (props) => {
     >
       <Card>
         <CardHeader
-          subheader="The information can be edited"
-          title="Profile"
+          subheader="Vos informations peuvent être modifiées"
+          title="Mon profil"
         />
         <Divider />
         <CardContent>
@@ -66,12 +114,11 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                helperText="Please specify the first name"
-                label="First name"
-                name="firstName"
+                label="Nom"
+                name="name"
                 onChange={handleChange}
                 required
-                value={values.firstName}
+                value={values.name}
                 variant="outlined"
               />
             </Grid>
@@ -82,11 +129,11 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Last name"
-                name="lastName"
+                label="Prénom"
+                name="uid"
                 onChange={handleChange}
                 required
-                value={values.lastName}
+                value={values.uid}
                 variant="outlined"
               />
             </Grid>
@@ -97,69 +144,13 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Email Address"
+                label="Adresse e-mail"
                 name="email"
                 onChange={handleChange}
                 required
                 value={values.email}
                 variant="outlined"
               />
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Phone Number"
-                name="phone"
-                onChange={handleChange}
-                type="number"
-                value={values.phone}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Country"
-                name="country"
-                onChange={handleChange}
-                required
-                value={values.country}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Select State"
-                name="state"
-                onChange={handleChange}
-                required
-                select
-                SelectProps={{ native: true }}
-                value={values.state}
-                variant="outlined"
-              >
-                {states.map((option) => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                ))}
-              </TextField>
             </Grid>
           </Grid>
         </CardContent>
@@ -174,8 +165,9 @@ export const AccountProfileDetails = (props) => {
           <Button
             color="primary"
             variant="contained"
+          // onClick={() => updateProfilUserTmp(valuesTmp)}
           >
-            Save details
+            Mettre à jour
           </Button>
         </Box>
       </Card>
