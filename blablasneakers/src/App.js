@@ -12,6 +12,7 @@ import MySubjects from './Subjects/MySubjects';
 import Account from './Profil/Account';
 import SubjectFav from './Subjects/SubjectFav';
 import Home from './Home/Home';
+import SingleThread from './Home/SingleThread';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Route path="/MySubjects" element={<MySubjects />} />
       <Route path="/Account" element={<Account />} />
       <Route path="/SubjectFav" element={<SubjectFav />} />
+      <Route path="/sujet" element={<SingleThread />} />
     </Routes>
   );
 }
