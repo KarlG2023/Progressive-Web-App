@@ -14,11 +14,11 @@ const createSubject = async (title, message) => {
   var messages = [];
   var subjects = [];
 
-  subjects.push([title, userid, serverTimestamp()]);
+  subjects.push([title, userid, uuid, serverTimestamp()]);
 
   writeToDatabase(subjects, pathTopic)
 
-  messages.push([message, userid, serverTimestamp()]);
+  messages.push([message, userid, uuid, serverTimestamp()]);
 
   writeToDatabase(messages, pathThread)
 };
