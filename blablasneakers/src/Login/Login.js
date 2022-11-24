@@ -32,6 +32,8 @@ export default function Login() {
       // maybe trigger a loading screen
       return;
     }
+    console.log("user",user);
+
     console.log("email", email, "password", password);
     if (user) navigate("/");
   }, [user, loading, navigate, email, password]);

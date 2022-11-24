@@ -3,8 +3,6 @@ import { uid } from "uid";
 import { db } from "./config";
 import { writeToDatabase, deleteInDatabase } from "./handleDb";
 import { ref, get, serverTimestamp } from "firebase/database";
-import { TenMp } from "@mui/icons-material";
-
 
 const createSubject = async (title, message) => {
   const uuid = uid();
@@ -14,11 +12,11 @@ const createSubject = async (title, message) => {
   var messages = [];
   var subjects = [];
 
-  subjects.push([title, userid, serverTimestamp()]);
+  subjects.push([title, userid, serverTimestamp(), uuid]);
 
   writeToDatabase(subjects, pathTopic)
 
-  messages.push([message, userid, serverTimestamp()]);
+  messages.push([message, userid, serverTimestamp(), uuid]);
 
   writeToDatabase(messages, pathThread)
 };
@@ -33,6 +31,7 @@ const postMessage = async (message, threadUid) => {
     .then((snapshot) => {
       if (snapshot.exists()) {
         messages = snapshot.val().data
+        console.log(messages)
       } else {
         console.log("No data available");
       }
@@ -41,7 +40,7 @@ const postMessage = async (message, threadUid) => {
       console.error(error);
     });
 
-  messages.push([message, userid, serverTimestamp()])
+  messages.push([message, userid, serverTimestamp(), threadUid])
 
   writeToDatabase(messages, path)
 };

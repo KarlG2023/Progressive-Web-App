@@ -10,8 +10,8 @@ import {
   TextField
 } from '@mui/material';
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "../firebase/config";
-import { query, collection, getDocs } from "firebase/firestore";
+import { auth } from "../firebase/config";
+// import { query, collection, getDocs } from "firebase/firestore";
 
 // const states = [
 //   {
@@ -43,26 +43,40 @@ export const AccountProfileDetails = (props) => {
     uid: '',
   });
 
-  useEffect(() => {
-    const fetchUserInformations = async () => {
-      try {
-        const q = query(collection(db, "users"));
-        const doc = await getDocs(q);
-        const data = doc.docs[0].data();
+  // useEffect(() => {
+  //   const fetchUserInformations = async () => {
+  //     try {
+  //       const q = query(collection(db, "users"));
+  //       const doc = await getDocs(q);
+  //       const data = doc.docs[0].data();
 
+  //       setValues({
+  //         ...values,
+  //         email: data.email,
+  //         name: data.name,
+  //         uid: data.uid,
+  //       });
+
+  //     } catch (err) {
+  //       console.error(err);
+  //       // alert("An error occured while fetching user data");
+  //     }
+  //   };
+  //   fetchUserInformations();
+  // }, [user, values]);
+
+  useEffect(() => {
+    if ([user].length > 0) {
+      const fetchUserInformations = async () => {
         setValues({
           ...values,
-          email: data.email,
-          name: data.name,
-          uid: data.uid,
+          email: user?.email,
+          name: user?.displayName,
+          uid: user?.uid,
         });
-
-      } catch (err) {
-        console.error(err);
-        alert("An error occured while fetching user data");
-      }
-    };
-    fetchUserInformations();
+      };
+      fetchUserInformations();
+    }
   }, [user, values]);
 
   const handleChange = (event) => {
@@ -151,7 +165,7 @@ export const AccountProfileDetails = (props) => {
           <Button
             color="primary"
             variant="contained"
-            // onClick={() => updateProfilUserTmp(valuesTmp)}
+          // onClick={() => updateProfilUserTmp(valuesTmp)}
           >
             Mettre à jour
           </Button>

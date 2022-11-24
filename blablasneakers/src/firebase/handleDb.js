@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { db } from "./config";
 import { uid } from "uid";
 import { set, ref, remove, update } from "firebase/database";

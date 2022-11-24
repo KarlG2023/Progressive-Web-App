@@ -45,7 +45,7 @@ export default function Register() {
 
   useEffect(() => {
     if (loading) return;
-
+    console.log("user",user);
     if (user) navigate("/", { replace: true });
   }, [user, loading]);
 
