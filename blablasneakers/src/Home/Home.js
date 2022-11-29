@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
+import { useState } from "react";
 import { styled, createTheme, ThemeProvider, alpha } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -25,6 +26,8 @@ import TableRow from '@mui/material/TableRow';
 import Title from './Title';
 import {useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import axios from 'axios';
+import { uploadPicture } from '../firebase/imgur';
 
 function Copyright(props) {
   return (
@@ -174,6 +177,13 @@ function DashboardContent() {
       navigate(`/sujet/`, { replace: true, state: {id: selectedRow[3], name: selectedRow[0]}});
   }
 
+  const [file, SetFile] = useState(null);
+
+  const onFileChange = event => {
+    // Updating the state
+    SetFile(event.target.files[0] );
+  };
+
   React.useEffect(() => {
     goSingleThread(selectedRow)
   }, [selectedRow])
@@ -257,7 +267,10 @@ function DashboardContent() {
                       <TextField name="sujet" label="Sujet" multiline rows={4} onChange={(e) => handleSubmitSujet(e)} placeholder="Écrivez votre sujet ici..." variant="outlined" fullWidth required />
                     </Grid>
                     <Grid item xs={12}>
-                      <Button type="submit" variant="contained" color="primary" fullWidth onClick={() => createSubject(titre, sujet)} >Poster</Button>
+                      <input type="file" onChange={onFileChange} />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Button variant="contained" color="primary" fullWidth onClick={() => createSubject(titre, sujet, file)} >Poster</Button>
                     </Grid>
                   </Grid>
                 </form>
