@@ -16,15 +16,23 @@ import InputBase from '@mui/material/InputBase';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import { createSubject, getSubjects } from '../firebase/thread';
+import { createSubject } from '../firebase/thread';
+import { getSubjects } from '../firebase/thread';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import Alert from '@mui/material/Alert';
+import { getUserId } from "../firebase/auth";
+import { uid } from "uid";
+import { db } from "../firebase/config";
+import { writeToDatabase, deleteInDatabase } from "../firebase/handleDb";
+import { ref, get, serverTimestamp } from "firebase/database";
+import { disableNetwork } from "firebase/firestore";
 
 function Copyright(props) {
   return (
@@ -99,33 +107,81 @@ function DashboardContent() {
     event.preventDefault();
     setTitre(event.target.value);
   }
+
   const handleSubmitSujet = (event) => {
     event.preventDefault();
     setSujet(event.target.value);
   }
-  // function refreshPage() {
-  //   window.location.reload(false);
-  // }
 
   React.useEffect(() => {
-    async function getData() {
-      await getSubjects()
-        .then(function (response) {
-          // console.log("response", response);
-          data.current = [response];
-          // console.log("typeof data", data.current[0]);
-          propertyValues.current = Object.values(data.current[0]);//convertie mon object data en array
-          if (!propertyValuesTmp.includes(propertyValues.current))
-            setPropertyValuesTmp(propertyValues.current);
+    const getSubjects = async () => {
+      var returnValue;
+      await get(ref(db, `subjects`))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            localStorage.setItem("Subjetcs", snapshot.val());
+            let collection = localStorage.getItem('Subjetcs');
+            console.log("collection", collection);
+            data.current = [snapshot.val()];
+            // console.log("typeof data", data.current[0]);
+            propertyValues.current = Object.values(data.current[0]);//convertie mon object data en array
+            if (!propertyValuesTmp.includes(propertyValues.current)) {
+              setPropertyValuesTmp(propertyValues.current);
+            }
+            returnValue = snapshot.val();
+          } else {
+            console.log("subject does not exist");
+          }
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch((error) => {
+          console.error(error);
+
+          let collection = localStorage.getItem('Subjetcs');
+          data.current = [collection];
+          console.log("data", data.current);
+          propertyValues.current = Object.values(data.current[0]);//convertie mon object data en array
+          if (!propertyValuesTmp.includes(propertyValues.current)) {
+            setPropertyValuesTmp(propertyValues.current);
+          }
         });
+      return returnValue;
     };
-    getData();
-  }, []);
+    getSubjects();
+  }, [])
+
+  // React.useEffect(() => {
+  //   async function getData() {
+  //     await getSubjects()
+  //       .then(function (response) {
+  //         localStorage.setItem("Subjetcs", JSON.stringify(response));
+  //         let collection = localStorage.getItem('Subjetcs');
+  //         console.log("collection",collection);
+  //         // console.log("response", response);
+  //         data.current = [response];
+  //         // console.log("typeof data", data.current[0]);
+  //         propertyValues.current = Object.values(data.current[0]);//convertie mon object data en array
+  //         if (!propertyValuesTmp.includes(propertyValues.current)) {
+  //           setPropertyValuesTmp(propertyValues.current);
+  //         }
+
+  //       })
+  //       .catch(function (error) {
+  //         let collection = localStorage.getItem('Subjetcs');
+  //         console.log(collection);
+
+  //         data.current = [collection];
+  //         propertyValues.current = Object.values(data.current[0]);//convertie mon object data en array
+  //         if (!propertyValuesTmp.includes(propertyValues.current)) {
+  //           setPropertyValuesTmp(propertyValues.current);
+  //         }
+  //         console.error(error);
+  //       });
+  //   };
+  //   getData();
+  // }, []);
 
   React.useEffect(() => {
+    console.log("propertyValuesTmp", propertyValuesTmp);
     if (propertyValuesTmp.length > 0) {
       function readUserData() {
         // console.log('start');
@@ -171,7 +227,7 @@ function DashboardContent() {
     // console.log("selectedRow", selectedRow);
     // console.log("nameSujbect", nameSujbect);
     if (selectedRow.length > 0)
-      navigate(`/sujet/`, { replace: true, state: {id: selectedRow[3], name: selectedRow[0]}});
+      navigate(`/sujet/`, { replace: true, state: { id: selectedRow[3], name: selectedRow[0] } });
   }
 
   React.useEffect(() => {
@@ -180,6 +236,7 @@ function DashboardContent() {
 
   return (
     <ThemeProvider theme={mdTheme}>
+      <Alert sx={{ justifyContent: "center" }} severity="warning">This web app works offline!</Alert>
       <Box
         component="main"
         sx={{
@@ -189,12 +246,14 @@ function DashboardContent() {
               : theme.palette.grey[900],
           display: 'flex',
           overflow: 'auto',
+          height: '100vh',
           justifyContent: 'center'
         }}
       >
         <CssBaseline />
         <Toolbar />
         <Container id="wesh" maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+
           <Grid container spacing={3} columns={12}>
 
             <Grid item xs={12} md={8} lg={9}>

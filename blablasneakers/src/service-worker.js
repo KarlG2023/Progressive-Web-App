@@ -20,6 +20,7 @@ clientsClaim();
 // This variable must be present somewhere in your service worker file,
 // even if you decide not to use precaching. See https://cra.link/PWA
 precacheAndRoute(self.__WB_MANIFEST);
+// precacheAndRoute(self.__WB_MANIFEST);
 
 // Set up App Shell-style routing, so that all navigation requests
 // are fulfilled with your index.html shell. Learn more at
@@ -70,3 +71,35 @@ self.addEventListener('message', (event) => {
 });
 
 // Any other custom service worker logic can go here.
+// self.addEventListener('fetch', (event) => {
+//   event.respondWith(async function () {
+//     try {
+//       return await fetch(event.request);
+//     } catch (err) {
+//       return caches.match(event.request);
+//     }
+//   }());
+// });
+
+// Establish a cache name
+const cacheName = 'MyFancyCacheName_v1';
+
+self.addEventListener('fetch', (event) => {
+  // Check if this is a navigation request
+  if (event.request.mode === 'navigate') {
+    // Open the cache
+    event.respondWith(caches.open(cacheName).then((cache) => {
+      // Go to the network first
+      return fetch(event.request.url).then((fetchedResponse) => {
+        cache.put(event.request, fetchedResponse.clone());
+
+        return fetchedResponse;
+      }).catch(() => {
+        // If the network is unavailable, get
+        return cache.match(event.request.url);
+      });
+    }));
+  } else {
+    return;
+  }
+});

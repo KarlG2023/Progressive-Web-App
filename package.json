@@ -4,5 +4,8 @@
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.10.14",
     "firebase": "^9.13.0"
+  },
+  "devDependencies": {
+    "workbox-cli": "^6.5.4"
   }
 }

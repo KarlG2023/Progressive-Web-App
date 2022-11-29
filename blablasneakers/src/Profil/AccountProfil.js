@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Avatar,
   Box,
@@ -12,27 +12,36 @@ import {
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase/config";
 import { query, collection, getDocs, where } from "firebase/firestore";
+import { getProfil } from "../firebase/profil"
 
 export const AccountProfile = (props) => {
-  const [user] = useAuthState(auth);
-  const [name, setName] = useState("");
+  // const [user] = useAuthState(auth);
+  const tmp = useRef({});
+  const [userInfos, setUserInfos] = useState([]);
+  // const [profilTmp, setProfilTmp] = useState({});
 
   useEffect(() => {
-    // console.log(user)
-    const fetchUserName = async () => {
-      try {
-        const q = query(collection(db, "users"), where("uid", "==", user?.uid));
-        const doc = await getDocs(q);
-        const data = doc.docs[0].data();
-        setName(data.name);
-      } catch (err) {
-        console.error(err);
-        alert("An error occured while fetching user data");
-      }
+    function getDataProfil() {
+      console.log("getProfil()", getProfil());
+      tmp.current = getProfil();
+      // console.log("tmp.current", tmp.current);
     };
-    fetchUserName();
-  }, [user]);
+    getDataProfil();
+  });
 
+  useEffect(() => {
+    setUserInfos(tmp.current);
+  }, [tmp.current])
+
+  // useEffect(() => {
+  //   function getDataProfil() {
+  //     console.log("getProfil()", getProfil());
+  //     setProfilTmp(getProfil);
+  //     // console.log("tmp.current", tmp.current);
+  //   };
+  //   getDataProfil();
+  // }, []);
+  
   return (
     <Card {...props}>
       <CardContent>
@@ -44,7 +53,7 @@ export const AccountProfile = (props) => {
           }}
         >
           <Avatar
-            src={user?.avatar}
+            src={userInfos?.photoURL}
             sx={{
               height: 64,
               mb: 2,
@@ -56,26 +65,41 @@ export const AccountProfile = (props) => {
             gutterBottom
             variant="h5"
           >
-            {name}
+            {userInfos?.displayName}
           </Typography>
           <Typography
             color="textSecondary"
             variant="body2"
           >
-            {user?.email}
+            {userInfos?.email}
           </Typography>
         </Box>
       </CardContent>
       <Divider />
-      <CardActions>
-        <Button
-          color="primary"
-          fullWidth
-          variant="text"
+      <Box
+        sx={{
+          alignItems: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          marginTop: 2
+        }}
+      >
+        <Typography
+          color="textSecondary"
+          variant="body2"
         >
-          Télécharger une photo
-        </Button>
-      </CardActions>
+          2 Sujets non Synchroniser
+        </Typography>
+        <CardActions>
+          <Button
+            color="primary"
+            fullWidth
+            variant="text"
+          >
+            Synchroniser
+          </Button>
+        </CardActions>
+      </Box>
     </Card>
   )
 };

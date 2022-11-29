@@ -38,9 +38,10 @@ const updateProfilInfo = (name, photo_URL) => {
     displayName: name,
     photoURL: photo_URL,
   })
-    .then(() => {
+    .then((response) => {
       // Profile updated!
       // ...
+      console.log(response);
     })
     .catch((error) => {
       console.error(error);

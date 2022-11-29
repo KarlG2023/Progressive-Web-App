@@ -6,7 +6,7 @@ import {
   sendPasswordResetEmail,
   signOut,
 } from "firebase/auth";
-import { query, getDocs, collection, where, addDoc } from "firebase/firestore";
+import { query, getDocs, collection, where, addDoc, onSnapshot } from "firebase/firestore";
 
 import { auth, db } from "./config";
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Box,
   Button,
@@ -9,87 +9,18 @@ import {
   Grid,
   TextField
 } from '@mui/material';
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase/config";
-// import { query, collection, getDocs } from "firebase/firestore";
-
-// const states = [
-//   {
-//     value: 'alabama',
-//     label: 'Alabama'
-//   },
-//   {
-//     value: 'new-york',
-//     label: 'New York'
-//   },
-//   {
-//     value: 'san-francisco',
-//     label: 'San Francisco'
-//   }
-// ];
+import {updateProfilInfo} from "../firebase/profil"
 
 export const AccountProfileDetails = (props) => {
-  const [user] = useAuthState(auth);
+  const [name, setName] = useState("");
+  const [photoURL, setPhotoURL] = useState("");
 
-  const [values, setValues] = useState({
-    email: '',
-    name: '',
-    uid: '',
-  });
-
-  const [valuesTmp, setValuesTmp] = useState({
-    email: '',
-    name: '',
-    uid: '',
-  });
-
-  // useEffect(() => {
-  //   const fetchUserInformations = async () => {
-  //     try {
-  //       const q = query(collection(db, "users"));
-  //       const doc = await getDocs(q);
-  //       const data = doc.docs[0].data();
-
-  //       setValues({
-  //         ...values,
-  //         email: data.email,
-  //         name: data.name,
-  //         uid: data.uid,
-  //       });
-
-  //     } catch (err) {
-  //       console.error(err);
-  //       // alert("An error occured while fetching user data");
-  //     }
-  //   };
-  //   fetchUserInformations();
-  // }, [user, values]);
-
-  useEffect(() => {
-    if ([user].length > 0) {
-      const fetchUserInformations = async () => {
-        setValues({
-          ...values,
-          email: user?.email,
-          name: user?.displayName,
-          uid: user?.uid,
-        });
-      };
-      fetchUserInformations();
-    }
-  }, [user, values]);
-
-  const handleChange = (event) => {
-    console.log(event.target.value)
-    setValuesTmp({
-      ...valuesTmp,
-      [event.target.name]: event.target.value,
-      [event.target.email]: event.target.value,
-      [event.target.uid]: event.target.value
-    });
-    console.log(valuesTmp);
-  };
-
+  const submitChanges = () => {
+    console.log("name", name);
+    console.log("photoURL", photoURL);
+    updateProfilInfo(name, photoURL);
+  }
+  
   return (
     <form
       autoComplete="off"
@@ -116,9 +47,8 @@ export const AccountProfileDetails = (props) => {
                 fullWidth
                 label="Nom"
                 name="name"
-                onChange={handleChange}
-                required
-                value={values.name}
+                onChange={(e) => setName(e.target.value)}
+                value={name}
                 variant="outlined"
               />
             </Grid>
@@ -129,26 +59,10 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Prénom"
-                name="uid"
-                onChange={handleChange}
-                required
-                value={values.uid}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Adresse e-mail"
-                name="email"
-                onChange={handleChange}
-                required
-                value={values.email}
+                label="URL photo"
+                name="photoURL"
+                onChange={(e) => setPhotoURL(e.target.value)}
+                value={photoURL}
                 variant="outlined"
               />
             </Grid>
@@ -165,7 +79,7 @@ export const AccountProfileDetails = (props) => {
           <Button
             color="primary"
             variant="contained"
-          // onClick={() => updateProfilUserTmp(valuesTmp)}
+            onClick={() => submitChanges()}
           >
             Mettre à jour
           </Button>

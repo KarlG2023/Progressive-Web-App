@@ -36,9 +36,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build-inject": "react-scripts build && workbox injectManifest",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start-sw": "http-server ./build"
+    "start-sw": "http-server ./build",
+    "serve": "npm run build && serve -s ./build"
   },
   "eslintConfig": {
     "extends": [
@@ -59,6 +61,7 @@
     ]
   },
   "devDependencies": {
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "workbox-cli": "^6.5.4"
   }
 }
