@@ -95,6 +95,7 @@ function DashboardContent() {
   const [selectedRow, setSelectedRow] = React.useState({});
   const [propertyValuesTmp, setPropertyValuesTmp] = React.useState([]);
   const [row, setRow] = React.useState([]);
+  var refresh = false;
 
   const navigate = useNavigate();
 
@@ -125,7 +126,10 @@ function DashboardContent() {
           console.log(error);
         });
     };
-    getData();
+    if (refresh === false) {
+      refresh = true;
+      getData();
+    }
   }, []);
 
   React.useEffect(() => {
