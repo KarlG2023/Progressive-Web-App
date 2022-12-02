@@ -13,8 +13,6 @@ import SubjectFavCard from './SubjectFavCard';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-
-
 import { useLocation } from 'react-router-dom';
 import { postMessage, getThread } from '../firebase/thread';
 

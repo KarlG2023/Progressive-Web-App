@@ -6,7 +6,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import HomeIcon from '@mui/icons-material/Home';
 // import FavoriteIcon from '@mui/icons-material/Favorite';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-// import RateReviewIcon from '@mui/icons-material/RateReview';
+import RateReviewIcon from '@mui/icons-material/RateReview';
 import { logout } from "../firebase/auth";
 import LogoutIcon from '@mui/icons-material/Logout';
 
@@ -18,13 +18,13 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Accueil" />
     </ListItemButton>
-    {/* <ListItemButton href="/MySubjects">
+    <ListItemButton href="/MySubjects">
       <ListItemIcon>
         <RateReviewIcon />
       </ListItemIcon>
       <ListItemText primary="Mes sujets" />
     </ListItemButton>
-    <ListItemButton href="/SubjectFav">
+    {/* <ListItemButton href="/SubjectFav">
       <ListItemIcon>
         <FavoriteIcon />
       </ListItemIcon>
