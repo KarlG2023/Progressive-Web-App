@@ -7,5 +7,9 @@ module.exports = {
 	ignoreURLParametersMatching: [
 		/^utm_/,
 		/^fbclid$/
-	]
+	],
+	// runTimeCaching: [
+	// 	urlPattern: /https:\/\/jsonplaceholder\.typicode\.com/,
+	// 	handler: ""
+	// ]
 };

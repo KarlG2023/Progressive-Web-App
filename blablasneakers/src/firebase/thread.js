@@ -3,7 +3,7 @@ import { uid } from "uid";
 import { db } from "./config";
 import { writeToDatabase, deleteInDatabase } from "./handleDb";
 import { ref, get, serverTimestamp } from "firebase/database";
-import { uploadPicture, deletePicture } from "./imgur";
+import { uploadPicture } from "./imgur";
 
 const createSubject = async (title, message, file) => {
   const uuid = uid();

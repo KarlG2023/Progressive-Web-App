@@ -1,5 +1,9 @@
 import { Workbox } from 'workbox-window';
-
+if (Workbox) {
+  console.log(`Yay! Workbox is loaded 🎉`);
+} else {
+  console.log(`Boo! Workbox didn't load 😬`);
+}
 export default function registerServiceWorker() {
 
   if ( 'production' !== process.env.NODE_ENV ) {
@@ -24,4 +28,6 @@ export default function registerServiceWorker() {
     });
     wb.register();
   }
+
+
 }
