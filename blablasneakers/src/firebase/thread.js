@@ -3,8 +3,9 @@ import { uid } from "uid";
 import { db } from "./config";
 import { writeToDatabase, deleteInDatabase } from "./handleDb";
 import { ref, get, serverTimestamp } from "firebase/database";
+import { uploadPicture } from "./imgur";
 
-const createSubject = async (title, message) => {
+const createSubject = async (title, message, file) => {
   const uuid = uid();
   const userid = await getUserId();
   const pathTopic = `subjects/${uuid}`;
@@ -12,13 +13,24 @@ const createSubject = async (title, message) => {
   var messages = [];
   var subjects = [];
 
-  subjects.push([title, userid, serverTimestamp(), uuid]);
+  if (file != null) {
+    await uploadPicture(file)
+      .then(function (response) {
+        console.log(response.deleteHash, response.link)
+        subjects.push([title, userid, serverTimestamp(), uuid]);
+        writeToDatabase(subjects, pathTopic);
 
-  writeToDatabase(subjects, pathTopic)
+        messages.push([message, userid, serverTimestamp(), uuid, response.link, response.deleteHash]);
+        writeToDatabase(messages, pathThread);
+      })
+      .catch((err) => console.log(err.message));
+  } else {
+    subjects.push([title, userid, serverTimestamp(), uuid]);
+    writeToDatabase(subjects, pathTopic);
 
-  messages.push([message, userid, serverTimestamp(), uuid]);
-
-  writeToDatabase(messages, pathThread)
+    messages.push([message, userid, serverTimestamp(), uuid, null, null]);
+    writeToDatabase(messages, pathThread);
+  }
 };
 
 const postMessage = async (message, threadUid) => {
@@ -30,8 +42,8 @@ const postMessage = async (message, threadUid) => {
   await get(ref(db, `threads/${threadUid}`))
     .then((snapshot) => {
       if (snapshot.exists()) {
-        messages = snapshot.val().data
-        console.log(messages)
+        messages = snapshot.val().data;
+        console.log(messages);
       } else {
         console.log("No data available");
       }
@@ -40,9 +52,9 @@ const postMessage = async (message, threadUid) => {
       console.error(error);
     });
 
-  messages.push([message, userid, serverTimestamp(), threadUid])
+  messages.push([message, userid, serverTimestamp(), threadUid]);
 
-  writeToDatabase(messages, path)
+  writeToDatabase(messages, path);
 };
 
 const deleteSubject = async (uuid) => {
@@ -113,5 +125,11 @@ const getThread = async (uuid) => {
   return returnValue;
 };
 
-
-export { createSubject, deleteSubject, postMessage, getSubject, getSubjects, getThread };
+export {
+  createSubject,
+  deleteSubject,
+  postMessage,
+  getSubject,
+  getSubjects,
+  getThread,
+};

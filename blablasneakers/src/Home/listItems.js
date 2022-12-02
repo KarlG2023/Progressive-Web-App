@@ -4,9 +4,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import LoginIcon from '@mui/icons-material/Login';
 import HomeIcon from '@mui/icons-material/Home';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+// import FavoriteIcon from '@mui/icons-material/Favorite';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import RateReviewIcon from '@mui/icons-material/RateReview';
+// import RateReviewIcon from '@mui/icons-material/RateReview';
 import { logout } from "../firebase/auth";
 import LogoutIcon from '@mui/icons-material/Logout';
 
@@ -18,7 +18,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Accueil" />
     </ListItemButton>
-    <ListItemButton href="/MySubjects">
+    {/* <ListItemButton href="/MySubjects">
       <ListItemIcon>
         <RateReviewIcon />
       </ListItemIcon>
@@ -29,7 +29,7 @@ export const mainListItems = (
         <FavoriteIcon />
       </ListItemIcon>
       <ListItemText primary="Sujets favories" />
-    </ListItemButton>
+    </ListItemButton> */}
     <ListItemButton href="/Account">
       <ListItemIcon>
         <AccountBoxIcon />

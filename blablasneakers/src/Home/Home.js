@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
+import { useState } from "react";
 import { styled, createTheme, ThemeProvider, alpha } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -10,7 +11,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
-import SubjectFavCard from './SubjectFavCard';
+// import SubjectFavCard from './SubjectFavCard';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import Button from '@mui/material/Button';
@@ -23,7 +24,7 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
 function Copyright(props) {
@@ -171,12 +172,33 @@ function DashboardContent() {
     // console.log("selectedRow", selectedRow);
     // console.log("nameSujbect", nameSujbect);
     if (selectedRow.length > 0)
-      navigate(`/sujet/`, { replace: true, state: {id: selectedRow[3], name: selectedRow[0]}});
+      navigate(`/sujet/`, { replace: true, state: { id: selectedRow[3], name: selectedRow[0] } });
   }
+
+  const [file, SetFile] = useState(null);
+
+  const onFileChange = event => {
+    // Updating the state
+    SetFile(event.target.files[0]);
+  };
 
   React.useEffect(() => {
     goSingleThread(selectedRow)
   }, [selectedRow])
+
+  React.useEffect(() => {
+    fetch("https://api.pexels.com/v1/collections/featured?per_page=1", {
+      headers: {
+        Authorization: "563492ad6f91700001000001440cc0c996704d388e050eda3cfa5879"
+      }
+    })
+      .then(resp => {
+        return resp.json()
+      })
+      .then(data => {
+        console.log(data)
+      });
+  }, [])
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -197,7 +219,7 @@ function DashboardContent() {
         <Container id="wesh" maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <Grid container spacing={3} columns={12}>
 
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item xs={12} md={2} lg={9}>
               <Typography color="primary" sx={{ typography: { sm: 'h4', xs: 'h5' } }} gutterBottom >
                 Forum BlaBla Sneakers
               </Typography>
@@ -257,14 +279,17 @@ function DashboardContent() {
                       <TextField name="sujet" label="Sujet" multiline rows={4} onChange={(e) => handleSubmitSujet(e)} placeholder="Écrivez votre sujet ici..." variant="outlined" fullWidth required />
                     </Grid>
                     <Grid item xs={12}>
-                      <Button type="submit" variant="contained" color="primary" fullWidth onClick={() => createSubject(titre, sujet)} >Poster</Button>
+                      <input type="file" onChange={onFileChange} />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Button variant="contained" color="primary" fullWidth onClick={() => createSubject(titre, sujet, file)} >Poster</Button>
                     </Grid>
                   </Grid>
                 </form>
               </Stack>
             </Grid>
 
-            <Grid item xs={12} md={4} lg={3} >
+            {/* <Grid item xs={12} md={4} lg={3} >
               <Paper
                 sx={{
                   p: 2,
@@ -276,7 +301,7 @@ function DashboardContent() {
               >
                 <SubjectFavCard />
               </Paper>
-            </Grid>
+            </Grid> */}
 
           </Grid>
           <Copyright sx={{ pt: 4 }} />
