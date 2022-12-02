@@ -11,7 +11,7 @@ import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate, CacheFirst } from 'workbox-strategies';
+import { StaleWhileRevalidate, CacheFirst, NetworkFirst} from 'workbox-strategies';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 
 clientsClaim();
@@ -114,3 +114,22 @@ registerRoute(
     ],
   }),
 );
+
+
+registerRoute(
+  ({url}) => url.pathname.startsWith('/MySubjects'),
+  new NetworkFirst()
+);
+registerRoute(
+  ({url}) => url.pathname.startsWith('/Account'),
+  new NetworkFirst()
+);
+
+self.addEventListener('fetch', event => {
+  const {request} = event;
+  const url = new URL(request.url);
+
+  if (url.origin === location.origin && url.pathname === '/') {
+    event.respondWith(new StaleWhileRevalidate().handle({event, request}));
+  }
+});
